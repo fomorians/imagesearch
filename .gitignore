@@ -87,3 +87,10 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# System Files
+.DS_Store
+
+# Generated Content
+/data
+/logs
