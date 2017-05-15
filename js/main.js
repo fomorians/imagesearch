@@ -48,7 +48,7 @@
       e.preventDefault();
       const image_id = el.getAttribute("data-id");
       fetchRelated(image_id).then(data => {
-        history.pushState({'images':data}, null, `/#/${image_id}`);
+        history.pushState({'images':data}, null, `#/${image_id}`);
         this.update(data);
       });
     }
