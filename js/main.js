@@ -1,8 +1,7 @@
 (function() {
-  const HTML_ENDPOINT = '/nearest'; //'https://babi-164320.appspot.com/predict';
-  const API_ENDPOINT = '/api/nearest'; //'https://babi-164320.appspot.com/predict';
-  const IMAGE_ROOT = '/images';
-  const MAX_RANGE = 100;
+  const API_ENDPOINT = '//fomoro-website.appspot.com/api/related-images';
+  const IMAGE_ROOT = '//storage.googleapis.com/fomoro-website-related-images/images';
+  const MAX_RANGE = 1000;
 
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -42,25 +41,31 @@
 
     getPrevState(e) {
         e.preventDefault();
-        this.update(e.state.results);
+        this.update(e.state.images);
     }
 
     getImages(el, e) {
       e.preventDefault();
       const image_id = el.getAttribute("data-id");
       fetchRelated(image_id).then(data => {
-        history.pushState(data, null, `${HTML_ENDPOINT}/${image_id}`);
-        this.update(data.results);
+        history.pushState({'images':data}, null, `/#/${image_id}`);
+        this.update(data);
       });
     }
 
     start() {
-      const image_id = getRandomInt(1, MAX_RANGE);
+      let image_id = parseInt(window.location.hash.split('/').pop());
+
+      if (Number.isNaN(image_id) ||image_id < 0 || image_id > MAX_RANGE) {
+        image_id = getRandomInt(1, MAX_RANGE);
+      }
+
       fetchRelated(image_id).then(data => {
-        this.update(data.results);
+        this.update(data);
       });
     }
   }
 
   const app = new App();
+  app.start();
 }).call(this);

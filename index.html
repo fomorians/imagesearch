@@ -6,7 +6,8 @@
         <meta name="keywords" content="autoencoder, demo, ml, ai">
         <meta name="description" content="reverse image search demo">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
         <div class="jumbotron jumbotron-fluid header">
@@ -14,10 +15,11 @@
             <div class="row">
               <div class="col-md-12">
                 <h1 class="display-4">Find Related Images</h1>
-                {% set first = results[0] %}
-                {% set next = range(1, 100) | random %}
-                <img id="first" "data-id"="{{ first.id }}" src="/images/{{ first.image }}" />
-                <a id="randomize" class="btn" data-id="{{ next }}" href="/nearest/{{ next }}">Get New Random Image</a>
+                <img id="first" data-id="" src="/images/placeholder.gif" />
+                <a id="randomize" class="btn" data-id="" href="#">
+                  Refresh
+                  <i class="fa fa-refresh" aria-hidden="true"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -27,19 +29,48 @@
           <div class="row">
             <div class="col-md-12">
                 <ul id=results>
-                {% for item in results %}
-                    {% if not loop.first %}
-                    <li><a href="/nearest/{{ item.id }}">
-                        <img class="result" data-id="{{ item.id }}" src="/images/{{ item.image }}" />
-                    </a></li>
-                    {% endif %}
-                {% endfor %}
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
+                  <li><a href="#">
+                      <img class="result" data-id="" src="/images/placeholder.gif" />
+                  </a></li>
                 <ul>
             </div>
           </div>
         </div>
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-        <script src="/static/js/main.js"></script>
+        <script src="js/main.js"></script>
     </body>
 <html>
