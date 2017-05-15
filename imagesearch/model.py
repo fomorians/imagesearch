@@ -8,7 +8,7 @@ from __future__ import division
 import tensorflow as tf
 
 def encoder(inputs):
-    "Progressivly reduces embedding space by downsampling."
+    "Progressively reduces embedding space by downsampling."
 
     layer_1 = tf.layers.conv2d(
         inputs=inputs,
