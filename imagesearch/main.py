@@ -35,20 +35,10 @@ def main():
         default=1,
         type=int)
     parser.add_argument(
-        '--train-batch-size',
+        '--batch-size',
         help='Batch size for training steps',
         type=int,
         default=128)
-    parser.add_argument(
-        '--eval-batch-size',
-        help='Batch size for evaluation steps',
-        type=int,
-        default=128)
-    parser.add_argument(
-        '--lr',
-        help='Learning rate for training updates',
-        type=float,
-        default=1e-3)
 
     args = parser.parse_args()
 
@@ -57,10 +47,8 @@ def main():
     experiment_fn = generate_experiment_fn(
         train_files=args.train_files,
         eval_files=args.eval_files,
-        train_batch_size=args.train_batch_size,
-        eval_batch_size=args.eval_batch_size,
-        num_epochs=args.num_epochs,
-        learning_rate=args.lr)
+        batch_size=args.batch_size,
+        num_epochs=args.num_epochs)
 
     learn_runner.run(experiment_fn, args.job_dir)
 

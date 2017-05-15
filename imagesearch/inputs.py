@@ -30,13 +30,14 @@ def generate_input_fn(file_pattern, batch_size, num_epochs=None, shuffle=False):
             num_threads=4,
             capacity=50000)
 
+        # Converts image from uint8 to float32 and rescale from 0..255 => 0..1
+        # Rescale from 0..1 => -1..1 so that the "center" of the image range is roughly 0.
         image_batch = tf.to_float(image_batch) / 255
         image_batch = (image_batch * 2) - 1
 
         features = {
             "image": image_batch,
             "filename": filname_batch
-
         }
 
         labels = {

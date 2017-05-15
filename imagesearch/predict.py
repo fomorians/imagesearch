@@ -13,15 +13,11 @@ from annoy import AnnoyIndex
 from imagesearch.inputs import generate_input_fn
 from imagesearch.model import model_fn
 
-def get_metadata(features_length, lookup_index):
-    metadata = {
-        'timestamp': time.time(),
-        'features_length': features_length,
-        'filenames': lookup_index
-    }
-    return metadata
-
 def get_indicies(features_length, predictions_list):
+    """
+     Builds and returns annoy index and filename index. You need both since"
+     annoy indexes by number.
+    """
     lookup_index = []
     annoy_index = AnnoyIndex(features_length)
 
@@ -56,6 +52,11 @@ def main():
         '--out-dir',
         help='Location to save indexes',
         default=".")
+    parser.add_argument(
+        '--tree-count',
+        help='Forest of (n) trees. More trees == higher query precision.',
+        type=int,
+        default=10)
 
     args = parser.parse_args()
 
@@ -82,13 +83,17 @@ def main():
     lookup_index, annoy_index = get_indicies(features_length, predictions_list)
 
     # build and save metadata
-    metadata = get_metadata(features_length, lookup_index)
     with open('{}/metadata.json'.format(args.out_dir), 'w') as outfile:
-        json.dump(metadata, outfile)
+        json.dump({
+            'timestamp': time.time(),
+            'features_length': features_length,
+            'filenames': lookup_index
+        }, outfile)
 
     print("Starting Annoy build process")
+
     # build and save annoy trees
-    annoy_index.build(10) # 10 trees
+    annoy_index.build(args.tree_count)
     annoy_index.save('{}/index.ann'.format(args.out_dir))
 
     print("Successfully indexed {} images".format(len(lookup_index)))

@@ -8,6 +8,8 @@ from __future__ import division
 import tensorflow as tf
 
 def encoder(inputs):
+    "Progressivly reduces embedding space by downsampling."
+
     layer_1 = tf.layers.conv2d(
         inputs=inputs,
         kernel_size=3,
@@ -53,6 +55,8 @@ def encoder(inputs):
     return layer_6
 
 def decoder(inputs):
+    "Upsamples the embedding back to original size of the image."
+
     layer_1 = tf.layers.conv2d_transpose(
         inputs=inputs,
         kernel_size=3,
@@ -128,7 +132,6 @@ def model_fn(features, labels, mode):
     "Return ModelFnOps for use with Estimator."
     encoded_image = encoder(features["image"])
     decoded_image = decoder(encoded_image)
-    flattened_image = tf.reshape(encoded_image, [-1])
 
     loss = get_loss(decoded_image, labels, mode)
     train_op = get_train_op(loss, mode)

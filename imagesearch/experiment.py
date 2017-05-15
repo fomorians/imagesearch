@@ -11,21 +11,20 @@ from imagesearch.inputs import generate_input_fn
 from imagesearch.serve import generate_serving_input_fn
 from imagesearch.model import model_fn
 
-def generate_experiment_fn(train_files, eval_files, train_batch_size,
-                           eval_batch_size, num_epochs, learning_rate):
+def generate_experiment_fn(train_files, eval_files, batch_size, num_epochs):
 
     "Define and return `_experiment_fn` for use with `learn_runner.run`."
     def _experiment_fn(output_dir):
 
         train_input_fn = generate_input_fn(
             file_pattern=train_files,
-            batch_size=train_batch_size,
+            batch_size=batch_size,
             num_epochs=num_epochs,
             shuffle=True)
 
         eval_input_fn = generate_input_fn(
             file_pattern=eval_files,
-            batch_size=eval_batch_size,
+            batch_size=batch_size,
             num_epochs=1,
             shuffle=False)
 
