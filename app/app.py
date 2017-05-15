@@ -5,10 +5,6 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import division
 
-import os
-import json
-import random
-
 from annoy_lookup import AnnoyLookup
 from flask import Flask, render_template, jsonify, request, send_from_directory
 
@@ -22,7 +18,7 @@ def index_route():
 
 @app.route('/images/<path:path>')
 def get_data_route(path):
-    return send_from_directory('../', path)
+    return send_from_directory('../data/results/', path)
 
 @app.route('/nearest/<int:image_id>', methods=['GET'])
 def get_nearest_html_route(image_id):

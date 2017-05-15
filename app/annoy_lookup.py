@@ -6,6 +6,10 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import division
 
+import os
+import json
+import random
+
 from annoy import AnnoyIndex
 
 class AnnoyLookup(object):
@@ -20,7 +24,7 @@ class AnnoyLookup(object):
 
     def get_neighbors(self, image_id, max_neighbors=13):
         results = []
-        
+
         if image_id < 0 or image_id >= self._limit:
             image_id = random.randrange(self._limit)
 
