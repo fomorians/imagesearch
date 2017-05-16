@@ -13,9 +13,9 @@ def generate_input_fn(file_pattern, batch_size, num_epochs=None, shuffle=False):
     def _input_fn():
         height, width, channels = [256, 256, 3]
 
-        filename_tensor = tf.train.match_filenames_once(file_pattern)
+        filenames_tensor = tf.train.match_filenames_once(file_pattern)
         filename_queue = tf.train.string_input_producer(
-            filename_tensor,
+            filenames_tensor,
             num_epochs=num_epochs,
             shuffle=shuffle)
 
