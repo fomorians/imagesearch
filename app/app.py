@@ -28,7 +28,7 @@ def get_nearest_api_route(image_id):
 
 @app.route('/images/<path:path>')
 def get_thumb_route(path):
-    return send_from_directory('../data/results/', path)
+    return send_from_directory('../data/validation/', path)
 
 if __name__ == "__main__":
     app.run()
