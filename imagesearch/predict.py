@@ -7,28 +7,12 @@ from __future__ import division
 
 import argparse, os, json, time
 import tensorflow as tf
+import numpy as np
 
 from tqdm import tqdm
 from annoy import AnnoyIndex
 from imagesearch.inputs import generate_input_fn
 from imagesearch.model import model_fn
-
-def get_indicies(features_length, predictions_list):
-    """
-     Builds and returns annoy index and filename index. You need both since"
-     annoy indexes by number.
-    """
-    lookup_index = []
-    annoy_index = AnnoyIndex(features_length)
-
-    for i in tqdm(range(len(predictions_list))):
-        prediction = predictions_list[i]
-        flattened_image = prediction['encoded_image'].flatten()
-
-        annoy_index.add_item(i, flattened_image)
-        lookup_index.append(prediction['filename'].split("/")[-1])
-
-    return lookup_index, annoy_index
 
 def main():
     "Entrypoint for predictions."
@@ -75,28 +59,38 @@ def main():
         input_fn=input_fn,
         as_iterable=True)
 
+    # drop out of tensorflow into regular python/numpy
     predictions_list = list(predictions_iter)
     features_length = len(predictions_list[0]['encoded_image'].flatten())
 
-    print("Indexing {} images".format(len(predictions_list)))
+    # flatten embeddings so they play nice with annoy
+    embeddings = np.zeros(shape=(len(predictions_list), 8192), dtype=np.float64)
+    for i in tqdm(range(len(predictions_list))):
+        embeddings[i] = predictions_list[i]['encoded_image'].flatten()
 
-    lookup_index, annoy_index = get_indicies(features_length, predictions_list)
+    # get the normalized embeddings so our search is more accurate
+    embeddings_norm = embeddings / embeddings.max()
 
-    # build and save metadata
+    # build search and filename indexes
+    filenames = []
+    nn_search = AnnoyIndex(features_length)
+    for i in tqdm(range(len(predictions_list))):
+        nn_search.add_item(i, embeddings_norm[i])
+        filenames.append(predictions_list[i]['filename'].split("/")[-1])
+
+    # build and save filename metadata
     with open('{}/metadata.json'.format(args.out_dir), 'w') as outfile:
         json.dump({
             'timestamp': time.time(),
             'features_length': features_length,
-            'filenames': lookup_index
+            'filenames': filenames
         }, outfile)
 
-    print("Starting Annoy build process")
+    # build and save search trees
+    nn_search.build(args.tree_count)
+    nn_search.save('{}/index.ann'.format(args.out_dir))
 
-    # build and save annoy trees
-    annoy_index.build(args.tree_count)
-    annoy_index.save('{}/index.ann'.format(args.out_dir))
-
-    print("Successfully indexed {} images".format(len(lookup_index)))
+    print("Successfully indexed {} images".format(len(filenames)))
 
 if __name__ == '__main__':
     main()
