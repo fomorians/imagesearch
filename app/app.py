@@ -13,22 +13,22 @@ app = Flask(__name__)
 
 @app.route('/')
 def index_route():
-    results = lookup.get_neighbors(-1) # random starting image.
+    results = lookup.get_multiple_neighbors(-1) # random starting image.
     return render_template('index.html', results=results)
-
-@app.route('/images/<path:path>')
-def get_data_route(path):
-    return send_from_directory('../data/results/', path)
 
 @app.route('/nearest/<int:image_id>', methods=['GET'])
 def get_nearest_html_route(image_id):
-    results = lookup.get_neighbors(image_id)
+    results = lookup.get_multiple_neighbors(image_id)
     return render_template('index.html', results=results)
 
 @app.route('/api/nearest/<int:image_id>', methods=['GET'])
 def get_nearest_api_route(image_id):
-    results = lookup.get_neighbors(image_id)
+    results = lookup.get_multiple_neighbors(image_id)
     return jsonify(results=results)
+
+@app.route('/images/<path:path>')
+def get_thumb_route(path):
+    return send_from_directory('../data/results/', path)
 
 if __name__ == "__main__":
     app.run()
