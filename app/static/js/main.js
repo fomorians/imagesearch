@@ -17,11 +17,11 @@
       this.first_el = document.getElementById('first');
       this.result_els = document.getElementsByClassName('result');
       this.randomize_el = document.getElementById('randomize');
-      
+
       this.randomize_el.setAttribute("data-id", getRandomInt(1, MAX_RANGE));
       this.randomize_el.addEventListener('click', this.getImages.bind(this, this.randomize_el));
 
-      _.each(document.querySelectorAll('section a'), (el, i) => {
+      _.each(document.querySelectorAll('.section a'), (el, i) => {
         el.addEventListener('click', this.getImages.bind(this, el));
       })
 
