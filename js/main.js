@@ -21,7 +21,7 @@
       this.randomize_el.setAttribute("data-id", getRandomInt(1, MAX_RANGE));
       this.randomize_el.addEventListener('click', this.getImages.bind(this, this.randomize_el));
 
-      _.each(document.querySelectorAll('section a'), (el, i) => {
+      _.each(document.querySelectorAll('.section a'), (el, i) => {
         el.addEventListener('click', this.getImages.bind(this, el));
       })
 
@@ -44,6 +44,7 @@
 
     getImages(el, e) {
       e.preventDefault();
+
       let image_id = el.getAttribute("data-id");
       if (!image_id) {
         let img_el = el.getElementsByTagName('img')[0];
@@ -51,14 +52,14 @@
       }
 
       fetchRelated(image_id).then(data => {
-        history.pushState({'images': data}, null, `${HTML_ENDPOINT}/${image_id}`);
+        history.pushState({'images':data}, null, `/imagesearch/#/${image_id}`);
         this.update(data);
       });
     }
 
     start() {
       let image_id = parseInt(window.location.hash.split('/').pop());
-      if (Number.isNaN(image_id) ||image_id < 0 || image_id > MAX_RANGE) {
+      if (Number.isNaN(image_id) || image_id < 0 || image_id > MAX_RANGE) {
         image_id = getRandomInt(1, MAX_RANGE);
       }
 
