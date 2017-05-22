@@ -1,24 +1,39 @@
 html .container-fluid {
-  margin: 0 30px;
+  margin: 30px;
 }
 
-ul {
-    display: flex; /* or inline-flex */
-    list-style: none;
-    flex-flow: row wrap;
-    margin: 0;
-    padding: 0;
-    align-content: flex-start;
+h1 {
+  padding-bottom:.3em;
 }
 
-li {
-    flex-basis: auto;
-    margin: 15px 45px 30px 0;
+h2 {
+  font-weight: normal;
 }
 
-html .btn {
-  color: #333;
-  font-size: 20px;
-  font-weight: bold;
-  text-transform: uppercase;
+img {
+  display: block;
+  float: left;
+}
+
+#randomize {
+  text-align: right;
+  font-size: 3.5rem;
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+#second, #fourth {
+  padding: 30px 0;
+  border-bottom: 1px solid #dedede;
+}
+
+#first, #third {
+  background-color: #efefef;
+  padding: 30px 0;
+  border-bottom: 1px solid #dedede;
+}
+
+.section {
+  height: 372px;
+  overflow: hidden;
 }
