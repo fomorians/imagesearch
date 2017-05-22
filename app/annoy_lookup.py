@@ -46,10 +46,9 @@ class AnnoyLookup(object):
     def get_multiple_neighbors(self, image_id, set_count=3, offset=333, max_neighbors=36):
         results = []
 
-        while set_count > 0:
+        for i in range(set_count)
             neighbors = self.get_neighbors(image_id, offset)
             image_id = neighbors[-1]['id']
-            set_count = set_count - 1
             results.append(neighbors[:max_neighbors])
 
         return results
