@@ -64,7 +64,10 @@ def main():
     features_length = len(predictions_list[0]['encoded_image'].flatten())
 
     # flatten embeddings so they play nice with annoy
-    embeddings = np.zeros(shape=(len(predictions_list), 8192), dtype=np.float64)
+    embeddings = np.zeros(shape=(len(predictions_list),
+                          features_length,
+                          dtype=np.float64)
+                          
     for i in tqdm(range(len(predictions_list))):
         embeddings[i] = predictions_list[i]['encoded_image'].flatten()
 
