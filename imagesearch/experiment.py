@@ -8,7 +8,6 @@ from __future__ import division
 import tensorflow as tf
 
 from imagesearch.inputs import generate_input_fn
-from imagesearch.serve import generate_serving_input_fn
 from imagesearch.model import model_fn
 
 def generate_experiment_fn(train_files, eval_files, batch_size, num_epochs):
