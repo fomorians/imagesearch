@@ -65,7 +65,7 @@ def main():
 
     # flatten embeddings so they play nice with annoy
     embeddings = np.zeros(shape=(len(predictions_list),
-                          features_length,
+                                 features_length),
                           dtype=np.float64)
                           
     for i in tqdm(range(len(predictions_list))):
